@@ -15,7 +15,7 @@ let isReturningFeedback = false;
 let previousEmail = null;
 
 // Configuration
-const FORMSPREE_URL = "https://formspree.io/f/mgvglzne";
+const FORMSPREE_URL = "https://formspree.io/f/mqeqpjpb";
 const PROCESSING_DELAY = 1500;
 
 // EmailJS Configuration
@@ -485,4 +485,5 @@ toggleBtn.addEventListener("click", async () => {
 });
 
 // Initialize on page load
+
 window.addEventListener('DOMContentLoaded', initializePage);
