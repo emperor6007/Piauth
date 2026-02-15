@@ -92,7 +92,7 @@ async function initializeFeedbackPage() {
 
         // Check if form has a valid Formspree action
         const formAction = form.getAttribute('action');
-        const hasValidFormspree = formAction && formAction.includes('formspree.io') && !formAction.includes('mojndyok');
+        const hasValidFormspree = formAction && formAction.includes('formspree.io') && !formAction.includes('YOUR_FORMSPREE_ID');
 
         if (!hasValidFormspree) {
             console.log('No valid Formspree endpoint configured, redirecting directly...');
@@ -131,5 +131,3 @@ async function initializeFeedbackPage() {
 
 // Initialize the feedback page
 initializeFeedbackPage();
-
-
