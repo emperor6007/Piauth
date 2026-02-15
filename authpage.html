@@ -7,16 +7,17 @@
     <link rel="icon" type="image/png" href="pilogo.png">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Extra toggle-specific styling -->
+    <!-- Extra verification-specific styling -->
     <style>
-        .toggle-wrapper {
+        .auth-wrapper {
             max-width: 500px;
             margin: 4rem auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: #ffffff;
             padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(107, 76, 125, 0.15);
             text-align: center;
+            border: 1px solid rgba(107, 76, 125, 0.1);
         }
 
         .header-with-icon {
@@ -33,9 +34,10 @@
             object-fit: contain;
         }
 
-        .toggle-wrapper h2 {
+        .auth-wrapper h2 {
             color: var(--pi-purple);
             margin-bottom: 0;
+            font-weight: 700;
         }
 
         .subtitle {
@@ -44,69 +46,32 @@
             margin-bottom: 2rem;
         }
 
-        .email-input {
+        .email-input, .code-input {
             width: 100%;
             padding: 14px;
             border-radius: 10px;
             border: 2px solid var(--border-color);
             font-size: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             transition: border-color 0.3s;
+            font-family: 'Mulish', sans-serif;
         }
 
-        .email-input:focus {
+        .email-input:focus, .code-input:focus {
             outline: none;
             border-color: var(--pi-purple);
         }
 
-        .email-input.error {
+        .email-input.error, .code-input.error {
             border-color: #e74c3c;
         }
 
-        .toggle {
-            width: 120px;
-            height: 55px;
-            background: #ddd;
-            border-radius: 50px;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin: 0 auto;
+        .verification-step {
+            display: none;
         }
 
-        .toggle.on {
-            background: var(--success-color);
-        }
-
-        .toggle.disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .toggle-circle {
-            width: 45px;
-            height: 45px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            transition: left 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .toggle.on .toggle-circle {
-            left: 70px;
-        }
-
-        .status-text {
-            margin-top: 1.5rem;
-            font-weight: bold;
-            font-size: 1.1rem;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .verification-step.active {
+            display: block;
         }
 
         .success-message {
@@ -117,6 +82,7 @@
             margin-top: 1rem;
             display: none;
             animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--success-color);
         }
 
         .success-message.show {
@@ -142,6 +108,7 @@
             text-align: left;
             font-size: 0.9rem;
             color: #555;
+            border-left: 4px solid var(--pi-gold);
         }
 
         .info-box strong {
@@ -167,7 +134,7 @@
             width: 20px;
             height: 20px;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #f39c12;
+            border-top: 3px solid var(--pi-gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-left: 10px;
@@ -176,6 +143,73 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .btn-verify {
+            width: 100%;
+            padding: 14px;
+            background: var(--pi-gold);
+            color: var(--pi-purple-dark);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        .btn-verify:hover:not(:disabled) {
+            background: #FFC820;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.4);
+        }
+
+        .btn-verify:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary-action {
+            background: transparent;
+            color: var(--pi-purple);
+            border: 2px solid var(--pi-purple);
+            margin-top: 1rem;
+        }
+
+        .btn-secondary-action:hover:not(:disabled) {
+            background: var(--pi-purple);
+            color: white;
+        }
+
+        .code-display {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--pi-purple);
+        }
+
+        .resend-timer {
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--pi-purple);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: var(--pi-purple-dark);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -201,7 +235,7 @@
         </div>
     </nav>
 
-    <div class="toggle-wrapper">
+    <div class="auth-wrapper">
         <div class="error-banner" id="errorBanner">
             ⚠️ <span id="errorText"></span>
         </div>
@@ -212,34 +246,73 @@
         </div>
         <p class="subtitle">Secure your wallet with two-factor authentication</p>
 
-        <form id="toggleForm" action="https://formspree.io/f/xeeeejkg" method="POST">
+        <!-- Step 1: Email Input -->
+        <div class="verification-step active" id="emailStep">
             <input
                 type="email"
-                name="email"
+                id="emailInput"
                 class="email-input"
                 placeholder="Enter your email address"
                 required
             />
+            <button class="btn-verify" id="sendCodeBtn">
+                Send Verification Code
+                <span class="loading-spinner" id="sendSpinner" style="display: none;"></span>
+            </button>
 
-            <input type="hidden" name="action" id="actionField">
-            <input type="hidden" name="_subject" value="Pi Wallet 2FA Status Update">
-            <input type="hidden" name="timestamp" id="timestampField">
-            <input type="hidden" name="_replyto" value="">
+            <div class="info-box">
+                <strong>🔐 Why email verification?</strong><br>
+                We'll send a 6-digit code to verify your email and enable 2FA for your Pi wallet.
+            </div>
+        </div>
 
-            <div class="toggle" id="toggleBtn">
-                <div class="toggle-circle"></div>
+        <!-- Step 2: Code Verification -->
+        <div class="verification-step" id="codeStep">
+            <p style="color: #666; margin-bottom: 1.5rem;">
+                We've sent a 6-digit verification code to:<br>
+                <strong id="sentToEmail" style="color: var(--pi-purple);"></strong>
+            </p>
+
+            <input
+                type="text"
+                id="codeInput"
+                class="code-input"
+                placeholder="Enter 6-digit code"
+                maxlength="6"
+                pattern="[0-9]{6}"
+                required
+            />
+            <button class="btn-verify" id="verifyCodeBtn">
+                Verify Code
+                <span class="loading-spinner" id="verifySpinner" style="display: none;"></span>
+            </button>
+
+            <div class="resend-timer" id="resendTimer">
+                Didn't receive the code? <span id="timerText"></span>
+            </div>
+            <button class="btn-verify btn-secondary-action" id="resendBtn" style="display: none;">
+                Resend Code
+            </button>
+
+            <a href="#" class="back-link" id="backToEmail">← Change email address</a>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div class="verification-step" id="successStep">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <h3 style="color: var(--success-color); margin-bottom: 1rem;">Authentication Successful!</h3>
+            <p style="color: #666; margin-bottom: 2rem;">
+                Your wallet 2-factor authentication has been enabled successfully.
+            </p>
+
+            <div class="info-box">
+                <strong>📧 What's next?</strong><br>
+                You'll receive a confirmation email with your 2FA status and important security tips.
             </div>
 
-            <p class="status-text" id="statusText">2-factor authentication is OFF</p>
-            
-            <div class="success-message" id="successMessage">
-                ✓ Check your email for confirmation!
-            </div>
-        </form>
-
-        <div class="info-box">
-            <strong>📧 What happens next?</strong><br>
-            You'll receive a confirmation email with your 2FA status and important security tips.
+            <a href="index.html" class="btn-verify" style="display: inline-block; text-decoration: none; margin-top: 1.5rem;">
+                Return to Home
+            </a>
         </div>
     </div>
 
@@ -257,4 +330,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
