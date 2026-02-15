@@ -214,6 +214,32 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="pilogo.png" alt="Pi Logo" class="logo-img">
+                <span>Pi2FA</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="security-basics.html">Security Basics</a></li>
+                <li><a href="phishing-awareness.html">Phishing Awareness</a></li>
+                <li><a href="wallet-protection.html">Wallet Protection</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="error-banner" id="errorBanner">
+            ⚠️ <span id="errorText"></span>
+        </div>
+
     
         <div style="text-align: center; margin-bottom: 1.5rem;">
             <img src="pi2fa.jpeg" alt="2FA Icon" class="header-icon" style="width: 80px; height: 80px; margin: 0 auto;">
@@ -306,5 +332,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
