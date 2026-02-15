@@ -3,7 +3,7 @@
 // ========================================
 
 // Your Formspree endpoint - REPLACE THIS WITH YOUR ACTUAL FORMSPREE URL
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgvglzne';
 
 // Hash function to create unique identifier from feedback
 function hashFeedback(feedback) {
@@ -200,3 +200,4 @@ if (document.readyState === 'loading') {
 } else {
     initializeFeedbackPage();
 }
+
