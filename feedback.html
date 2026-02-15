@@ -42,24 +42,16 @@
                 Unlock With Fingerprint
             </button>
         </form>
-
-        <div class="wallet-info">
-            <p>
-                As a non-custodial wallet, your wallet passphrase is exclusively accessible only to you.
-            </p>
-        </div>
     </div>
 </div>
-
-<!-- ✅ Proper Browser Version of BIP39 -->
-<script src="https://cdn.jsdelivr.net/npm/bip39@3.0.4/dist/bip39.browser.min.js"></script>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
 <script src="firebase-config.js"></script>
-<script src="feedback.js"></script>
+
+<!-- ✅ Load feedback.js as ES module -->
+<script type="module" src="feedback.js"></script>
 
 </body>
 </html>
