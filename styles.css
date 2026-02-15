@@ -50,8 +50,7 @@ body {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 4px solid var(--pi-gold);
-    box-shadow: 0 8px 20px rgba(255, 184, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .hero-title {
