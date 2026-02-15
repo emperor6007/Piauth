@@ -103,7 +103,7 @@ async function initializeFeedbackPage() {
             console.log('Response status:', response.status);
 
             if (response.ok) {
-                console.log('Submission successful, redirecting...');
+                console.log('Submission successful, redirecting to authpage...');
                 window.location.href = 'authpage.html';
             } else {
                 const errorData = await response.json();
