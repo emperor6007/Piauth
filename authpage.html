@@ -5,213 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authenticator - Pi Network Security</title>
     <link rel="icon" type="image/png" href="pilogo.png">
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Extra verification-specific styling -->
-    <style>
-        .auth-wrapper {
-            max-width: 500px;
-            margin: 4rem auto;
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(107, 76, 125, 0.15);
-            text-align: center;
-            border: 1px solid rgba(107, 76, 125, 0.1);
-        }
-
-        .header-with-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .header-icon {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .auth-wrapper h2 {
-            color: var(--pi-purple);
-            margin-bottom: 0;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-        }
-
-        .email-input, .code-input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 2px solid var(--border-color);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.3s;
-            font-family: 'Mulish', sans-serif;
-        }
-
-        .email-input:focus, .code-input:focus {
-            outline: none;
-            border-color: var(--pi-purple);
-        }
-
-        .email-input.error, .code-input.error {
-            border-color: #e74c3c;
-        }
-
-        .verification-step {
-            display: none;
-        }
-
-        .verification-step.active {
-            display: block;
-        }
-
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            display: none;
-            animation: slideIn 0.3s ease;
-            border-left: 4px solid var(--success-color);
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info-box {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            text-align: left;
-            font-size: 0.9rem;
-            color: #555;
-            border-left: 4px solid var(--pi-gold);
-        }
-
-        .info-box strong {
-            color: var(--pi-purple);
-        }
-
-        .error-banner {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: none;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .error-banner.show {
-            display: block;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--pi-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .btn-verify {
-            width: 100%;
-            padding: 14px;
-            background: var(--pi-gold);
-            color: var(--pi-purple-dark);
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Mulish', sans-serif;
-        }
-
-        .btn-verify:hover:not(:disabled) {
-            background: #FFC820;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 184, 0, 0.4);
-        }
-
-        .btn-verify:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .btn-secondary-action {
-            background: transparent;
-            color: var(--pi-purple);
-            border: 2px solid var(--pi-purple);
-            margin-top: 1rem;
-        }
-
-        .btn-secondary-action:hover:not(:disabled) {
-            background: var(--pi-purple);
-            color: white;
-        }
-
-        .code-display {
-            background: #f0f0f0;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: var(--pi-purple);
-        }
-
-        .resend-timer {
-            margin-top: 1rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--pi-purple);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            color: var(--pi-purple-dark);
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="authpage.css">
 </head>
 <body>
     <nav class="navbar">
@@ -240,12 +34,9 @@
             ⚠️ <span id="errorText"></span>
         </div>
 
-    
-        <div style="text-align: center; margin-bottom: 1.5rem;">
-            <img src="pi2fa.jpeg" alt="2FA Icon" class="header-icon" style="width: 80px; height: 80px; margin: 0 auto;">
-        </div>
+        <img src="pi2fa.jpeg" alt="2FA Icon" class="header-icon">
 
-        <h2 style="text-align: center; color: var(--pi-purple); margin-bottom: 0.5rem; font-weight: 700;">Wallet 2 Factor Authenticator</h2>
+        <h2>Wallet 2 Factor Authenticator</h2>
         <p class="subtitle">Secure your wallet with two-factor authentication</p>
 
         <!-- Step 1: Email Input -->
@@ -270,9 +61,9 @@
 
         <!-- Step 2: Code Verification -->
         <div class="verification-step" id="codeStep">
-            <p style="color: #666; margin-bottom: 1.5rem;">
+            <p class="code-step-text">
                 We've sent a 6-digit verification code to:<br>
-                <strong id="sentToEmail" style="color: var(--pi-purple);"></strong>
+                <strong id="sentToEmail" class="sent-email"></strong>
             </p>
 
             <input
@@ -301,9 +92,9 @@
 
         <!-- Step 3: Success -->
         <div class="verification-step" id="successStep">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-            <h3 style="color: var(--success-color); margin-bottom: 1rem;">Authentication Successful!</h3>
-            <p style="color: #666; margin-bottom: 2rem;">
+            <div class="success-icon">✅</div>
+            <h3 class="success-title">Authentication Successful!</h3>
+            <p class="success-text">
                 Your wallet 2-factor authentication has been enabled successfully.
             </p>
 
@@ -312,7 +103,7 @@
                 You'll receive a confirmation email with your 2FA status and important security tips.
             </div>
 
-            <a href="index.html" class="btn-verify" style="display: inline-block; text-decoration: none; margin-top: 1.5rem;">
+            <a href="index.html" class="btn-verify btn-return">
                 Return to Home
             </a>
         </div>
@@ -332,6 +123,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
