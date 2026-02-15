@@ -1,7 +1,7 @@
 // script.js - Email Verification Authentication
 
 // Initialize EmailJS with your public key
-emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your actual EmailJS public key
+emailjs.init("hU96YZH7Plzqh0qVZ"); // Replace with your actual EmailJS public key
 
 // Global variables
 let verificationCode = '';
@@ -102,8 +102,8 @@ async function sendVerificationCode(email) {
         // Send email via EmailJS
         // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual EmailJS IDs
         await emailjs.send(
-            'YOUR_SERVICE_ID',        // Your EmailJS service ID
-            'YOUR_TEMPLATE_ID',       // Your EmailJS template ID
+            'service_1dm7vk8',        // Your EmailJS service ID
+            'template_d7bvk5g',       // Your EmailJS template ID
             templateParams
         );
 
@@ -293,3 +293,4 @@ codeInput.addEventListener('input', () => {
     codeInput.classList.remove('error');
     hideError();
 });
+
