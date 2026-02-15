@@ -8,138 +8,76 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="pilogo.png" alt="Pi Logo" class="logo-img">
-                <span>Pi2FA</span>
+    <!-- First Section - Secure Your Pi Wallet (PI2FA_HOME) -->
+    <section class="intro-section">
+        <div class="container-2fa">
+            <div class="pi-logo-container">
+                <img src="pilogo.png" alt="Pi Network Logo" class="pi-logo-hero">
+            </div>
+            <h1 class="hero-title">Pi Wallet 2FA Security</h1>
+            <p class="hero-description">Enhanced Protection for Your Pi Assets</p>
+
+            <div class="info-card">
+                <div class="info-header">
+                    <span class="shield-icon">🛡️</span>
+                    <h2>Secure Your Pi Wallet</h2>
+                </div>
+                <div class="info-content">
+                    <p>Welcome to the Pi Network Wallet Two-Factor Authentication (2FA) activation service. This application provides an additional layer of security to protect your Pi cryptocurrency wallet from unauthorized access and potential attackers.</p>
+                    
+                    <p>In today's digital landscape, securing your cryptocurrency assets is paramount. By activating email-based 2FA, you add a critical security checkpoint that ensures only you can access your wallet, even if someone obtains your recovery phrase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Second Section - How It Works (PI2FA_HOME_2) -->
+    <section class="how-it-works">
+        <div class="container-2fa">
+            <div class="section-header">
+                <span class="sparkle-icon">✨</span>
+                <h2>How It Works</h2>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon">🔒</div>
+                    <h3>Secure Verification</h3>
+                    <p>Submit your Pi wallet's 24-word Passphrase to verify wallet ownership and authenticate wallet with 2FA email</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon">📧</div>
+                    <h3>Email Authentication</h3>
+                    <p>Link your email address for 2FA confirmation codes</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon">🔒</div>
+                    <h3>Enhanced Protection</h3>
+                    <p>Prevent unauthorized access even if your phrase is compromised</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon">⚡</div>
+                    <h3>Instant Activation</h3>
+                    <p>2FA is activated immediately upon successful verification</p>
+                </div>
+            </div>
+
+            <a href="feedback.html" class="btn-activate">
+                🔒 Activate 2FA on Your Pi Wallet
             </a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="security-basics.html">Security Basics</a></li>
-                <li><a href="phishing-awareness.html">Phishing Awareness</a></li>
-                <li><a href="wallet-protection.html">Wallet Protection</a></li>
-                <li><a href="resources.html">Resources</a></li>
-                <a href="feedback.html" class="btn btn-primary">Connect wallet</a>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Protect Your Pi Network Assets</h1>
-            <p class="hero-subtitle">Essential security practices to keep your Pi cryptocurrency safe</p>
-            <div class="cta-buttons">
-                <a href="feedback.html" class="btn btn-primary">Get Started</a>
-                <a href="phishing-awareness.html" class="btn btn-secondary">Learn About Scams</a>
-            </div>
-        </div>
-    </header>
+            <button class="btn-secure-connection">
+                🔒 Secure Connection
+            </button>
 
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Why Security Matters</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Protect Your Assets</h3>
-                    <p>Your Pi is valuable. Learn how to secure it from theft and unauthorized access.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎣</div>
-                    <h3>Avoid Scams</h3>
-                    <p>Recognize phishing attempts and fraudulent schemes targeting Pi Network users.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔑</div>
-                    <h3>Secure Your Keys</h3>
-                    <p>Understand the importance of private keys and seed phrases in cryptocurrency security.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Device Security</h3>
-                    <p>Keep your devices secure to prevent unauthorized access to your Pi wallet.</p>
-                </div>
-            </div>
+            <p class="footer-text">Pi Network © 2026 • All data is encrypted and secured</p>
         </div>
     </section>
-
-    <section class="warning-section">
-        <div class="container">
-            <div class="warning-box">
-                <h2>⚠️ Critical Security Reminders</h2>
-                <ul class="warning-list">
-                    <li><strong>NEVER share your passphrase or seed phrase</strong> with anyone, including people claiming to be from Pi Network support</li>
-                    <li><strong>Pi Network will NEVER ask for your passphrase</strong> via email, text, or social media</li>
-                    <li><strong>Only use the official Pi Network app</strong> downloaded from official app stores</li>
-                    <li><strong>Beware of fake websites</strong> - always verify you're on the official Pi Network domain</li>
-                    <li><strong>Enable all available security features</strong> including biometric authentication and 2FA when available</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section class="quick-tips">
-        <div class="container">
-            <h2 class="section-title">Quick Security Tips</h2>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-number">1</div>
-                    <h4>Backup Your Passphrase</h4>
-                    <p>Write down your passphrase on paper and store it in a secure location. Never store it digitally.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">2</div>
-                    <h4>Use Strong Passwords</h4>
-                    <p>Create unique, complex passwords for your Pi account and associated email.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">3</div>
-                    <h4>Verify Before Clicking</h4>
-                    <p>Always verify links before clicking. Scammers often use URLs that look similar to official ones.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">4</div>
-                    <h4>Stay Updated</h4>
-                    <p>Keep your Pi app and device operating system updated to the latest versions.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">5</div>
-                    <h4>Be Skeptical</h4>
-                    <p>If something seems too good to be true (free Pi, guaranteed returns), it's likely a scam.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">6</div>
-                    <h4>Use Official Channels</h4>
-                    <p>Only trust information from official Pi Network sources and verified social media accounts.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Secure Your Pi?</h2>
-            <p>Start with the basics and work your way through our comprehensive security guides.</p>
-            <a href="security-basics.html" class="btn btn-large btn-primary">Start Learning</a>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Pi2FA. This is an educational resource and is not affiliated with Pi Network.</p>
-            <p class="footer-disclaimer">Always verify information with official Pi Network sources at <strong>minepi.com</strong></p>
-        </div>
-    </footer>
 
     <script src="main.js"></script>
 </body>
 
 </html>
-
-
-
