@@ -1,3 +1,6 @@
+/* Google Fonts - Mulish */
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&display=swap');
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -27,20 +30,12 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Mulish', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--dark-text);
-    background: linear-gradient(135deg, #6B4C7D 0%, #5A3D6B 25%, #6B4C7D 50%, #7C5D8F 75%, #6B4C7D 100%);
-    background-size: 400% 400%;
-    background-attachment: fixed;
+    background: #ffffff;
     min-height: 100vh;
-    animation: gradientShift 15s ease infinite;
     overflow-x: hidden;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
 }
 
 .container {
@@ -51,14 +46,13 @@ body {
 
 /* Navigation */
 .navbar {
-    background: linear-gradient(135deg, rgba(107, 76, 125, 0.95) 0%, rgba(90, 61, 107, 0.95) 100%);
-    backdrop-filter: blur(10px);
+    background: var(--pi-purple);
     color: white;
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 20px rgba(107, 76, 125, 0.4);
+    box-shadow: 0 2px 10px rgba(107, 76, 125, 0.2);
 }
 
 .nav-container {
@@ -137,14 +131,13 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(107, 76, 125, 0.4) 0%, rgba(90, 61, 107, 0.4) 100%);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, var(--pi-purple) 0%, var(--pi-purple-dark) 100%);
     color: white;
     padding: 6rem 2rem;
     text-align: center;
-    border-radius: 20px;
-    margin: 2rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    margin: 0;
+    box-shadow: 0 4px 20px rgba(107, 76, 125, 0.15);
 }
 
 .hero-content h1 {
@@ -185,24 +178,27 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--pi-gold), #FFA500);
+    background: var(--pi-gold);
     color: var(--pi-purple-dark);
-    box-shadow: 0 4px 15px rgba(255, 184, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 184, 0, 0.3);
+    font-weight: 700;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(255, 184, 0, 0.6);
+    box-shadow: 0 6px 25px rgba(255, 184, 0, 0.5);
+    background: #FFC820;
 }
 
 .btn-secondary {
-    background: transparent;
+    background: var(--pi-purple);
     color: white;
-    border: 2px solid white;
+    border: 2px solid var(--pi-purple);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--pi-purple-dark);
+    border-color: var(--pi-purple-dark);
     transform: translateY(-2px);
 }
 
@@ -220,8 +216,8 @@ body {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: white;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: var(--pi-purple);
+    font-weight: 700;
 }
 
 /* Feature Grid */
@@ -234,21 +230,23 @@ body {
 .feature-card {
     text-align: center;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(107, 76, 125, 0.1);
     transition: all 0.3s;
-    border: 2px solid rgba(139, 63, 232, 0.1);
+    border: 2px solid rgba(107, 76, 125, 0.1);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(139, 63, 232, 0.3);
+    box-shadow: 0 8px 30px rgba(107, 76, 125, 0.2);
+    border-color: var(--pi-gold);
 }
 
 .feature-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: var(--pi-gold);
 }
 
 .feature-card h3 {
@@ -258,10 +256,11 @@ body {
 
 /* All other card components follow same pattern */
 .warning-section {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
+    background: #ffffff;
+    border-radius: 15px;
     margin: 2rem;
+    border: 2px solid rgba(107, 76, 125, 0.1);
+    box-shadow: 0 4px 20px rgba(107, 76, 125, 0.08);
 }
 
 .warning-box, .content-section, .info-box, .highlight-box, 
@@ -269,11 +268,12 @@ body {
 .quiz-question, .protection-step, .layer-card, .check-item,
 .advanced-strategy, .emergency-card, .schedule-item, 
 .resource-card, .tool-section {
-    background: rgba(255, 255, 255, 0.98);
+    background: #ffffff;
     padding: 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(107, 76, 125, 0.08);
     margin-bottom: 1.5rem;
+    border: 1px solid rgba(107, 76, 125, 0.1);
 }
 
 /* Grid layouts */
@@ -289,15 +289,48 @@ body {
 .page-header, .main-content, .cta-section {
     margin: 2rem;
     padding: 3rem 2rem;
-    border-radius: 20px;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(107, 76, 125, 0.08);
+}
+
+/* Gold accent styles */
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+.page-header h1 {
+    color: var(--pi-purple);
+    border-bottom: 3px solid var(--pi-gold);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.highlight-box {
+    border-left: 4px solid var(--pi-gold);
+}
+
+.feature-card h3,
+.content-section h2,
+.content-section h3 {
+    color: var(--pi-purple);
+}
+
+.do-box {
+    border-left: 4px solid var(--pi-gold);
+}
+
+.dont-box {
+    border-left: 4px solid var(--danger-color);
 }
 
 .footer {
-    background: linear-gradient(135deg, rgba(139, 63, 232, 0.95), rgba(107, 47, 184, 0.95));
+    background: var(--pi-purple);
     color: white;
     text-align: center;
     padding: 2rem;
     margin-top: 3rem;
+    box-shadow: 0 -2px 10px rgba(107, 76, 125, 0.2);
 }
 
 /* Responsive Design - Tablet */
@@ -318,12 +351,13 @@ body {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background: linear-gradient(135deg, rgba(139, 63, 232, 0.98), rgba(107, 47, 184, 0.98));
+        background: var(--pi-purple);
         width: 100%;
         text-align: center;
         transition: 0.3s;
         padding: 2rem 0;
         gap: 0;
+        box-shadow: 0 4px 20px rgba(107, 76, 125, 0.3);
     }
 
     .nav-menu.active {
