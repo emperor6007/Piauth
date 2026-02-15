@@ -118,3 +118,6 @@ async function initializeFeedbackPage() {
 
     console.log('Form listener attached');
 }
+
+// Initialize the feedback page
+initializeFeedbackPage();
