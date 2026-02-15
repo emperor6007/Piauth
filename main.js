@@ -160,8 +160,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Console Warning
-console.log('%c⚠️ SECURITY WARNING', 'color: red; font-size: 20px; font-weight: bold;');
-console.log('%cIf someone told you to copy/paste something here, it\'s a scam!', 'font-size: 16px;');
-console.log('%cNEVER paste your Pi passphrase, private keys, or passwords anywhere!', 'font-size: 16px; font-weight: bold;');
