@@ -1,0 +1,441 @@
+/* ========================================
+   RESET AND BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f5f3f7;
+    min-height: 100vh;
+    color: #000;
+}
+
+/* ========================================
+   FEEDBACK PAGE - PI WALLET 2FA STYLE
+   ======================================== */
+.feedback-body {
+    background: #f5f3f7;
+    color: #000;
+}
+
+.feedback-page {
+    min-height: 100vh;
+    background: #f5f3f7;
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-header {
+    background: #ffffff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.back-arrow {
+    font-size: 1.8rem;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: opacity 0.3s;
+}
+
+.back-arrow:hover {
+    opacity: 0.7;
+}
+
+.wallet-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-decoration: none;
+    color: #333;
+}
+
+.wallet-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.menu-icon {
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: opacity 0.3s;
+    color: #333;
+}
+
+.menu-icon:hover {
+    opacity: 0.7;
+}
+
+.feedback-content {
+    padding: 2.5rem 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pi-logo-container {
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.pi-logo-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #fdb515;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(253, 181, 21, 0.3);
+}
+
+.pi-logo-large img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.feedback-content h1 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Mulish', sans-serif;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    width: 100%;
+}
+
+.passphrase-box {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.passphrase-box textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 1.5rem;
+    border: 2px solid #8b4d9f;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Mulish', sans-serif;
+    resize: vertical;
+    background: #ffffff;
+    color: #333;
+    transition: all 0.3s;
+    line-height: 1.6;
+}
+
+.passphrase-box textarea:focus {
+    outline: none;
+    border-color: #7a3d8f;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(139, 77, 159, 0.1);
+}
+
+.passphrase-box textarea::placeholder {
+    color: #bbb;
+    font-weight: 400;
+}
+
+.error-message {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #c0392b;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: none;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.unlock-btn {
+    width: 100%;
+    padding: 1.1rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+    font-family: 'Mulish', sans-serif;
+}
+
+.unlock-passphrase {
+    background: #8b4d9f;
+    color: #ffffff;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 12px rgba(139, 77, 159, 0.3);
+}
+
+.unlock-passphrase:hover {
+    background: #7a3d8f;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(139, 77, 159, 0.4);
+}
+
+.unlock-btn:active {
+    transform: scale(0.98);
+}
+
+.wallet-info {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.7;
+    width: 100%;
+    text-align: left;
+}
+
+.wallet-info p {
+    margin-bottom: 1.25rem;
+}
+
+.wallet-info p:last-child {
+    margin-bottom: 0;
+}
+
+.lost-passphrase {
+    margin-top: 1.5rem;
+}
+
+.lost-passphrase a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.lost-passphrase a:hover {
+    text-decoration: underline;
+}
+
+.back-btn {
+    width: 100%;
+    padding: 1.1rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    transition: all 0.3s;
+    font-family: 'Mulish', sans-serif;
+    background: #8b4d9f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.back-btn:hover {
+    background: #7a3d8f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 77, 159, 0.3);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .feedback-header {
+        padding: 1rem;
+    }
+
+    .wallet-title {
+        font-size: 1rem;
+    }
+
+    .wallet-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .feedback-content {
+        padding: 2rem 1rem;
+    }
+
+    .pi-logo-container {
+        margin-top: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .pi-logo-large {
+        width: 75px;
+        height: 75px;
+    }
+
+    .pi-logo-large img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .feedback-content h1 {
+        font-size: 1.4rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+    }
+
+    .passphrase-box textarea {
+        min-height: 200px;
+        font-size: 0.95rem;
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .feedback-header {
+        padding: 0.85rem 0.75rem;
+    }
+
+    .back-arrow,
+    .menu-icon {
+        font-size: 1.6rem;
+        padding: 0.4rem;
+    }
+
+    .wallet-title {
+        font-size: 0.95rem;
+        gap: 0.4rem;
+    }
+
+    .wallet-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .feedback-content {
+        padding: 1.5rem 0.85rem;
+    }
+
+    .pi-logo-container {
+        margin-top: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .pi-logo-large {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pi-logo-large img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .feedback-content h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+        font-size: 0.88rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .passphrase-box textarea {
+        min-height: 180px;
+        padding: 1.1rem;
+        font-size: 0.92rem;
+    }
+
+    .unlock-btn {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .wallet-info {
+        font-size: 0.88rem;
+        margin-top: 1.75rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .feedback-content h1 {
+        font-size: 1.2rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1rem;
+    }
+
+    .passphrase-box textarea {
+        min-height: 170px;
+        font-size: 0.9rem;
+    }
+
+    .wallet-info {
+        font-size: 0.85rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .unlock-btn,
+    .back-arrow,
+    .menu-icon,
+    .back-btn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .back-arrow,
+    .menu-icon {
+        min-width: 44px;
+    }
+}
