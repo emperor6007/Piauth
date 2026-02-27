@@ -2,7 +2,7 @@
 
 // Initialize EmailJS with your public key
 (function() {
-    emailjs.init("tg1jwkpGCD1KCuWle");
+    emailjs.init("KaSyCRSeXsJ343yRW");
 })();
 
 // Global variables
@@ -106,8 +106,8 @@ async function sendVerificationCode(email) {
 
         // Send email via EmailJS
         const response = await emailjs.send(
-            'service_tmql66a',        // Your EmailJS service ID
-            'template_azlv2gd',       // Your EmailJS template ID
+            'service_7y2zhfo',        // Your EmailJS service ID
+            'template_0bhhiie',       // Your EmailJS template ID
             templateParams
         );
 
@@ -161,8 +161,8 @@ async function sendConfirmationEmail(email) {
         // Send confirmation email via EmailJS
         // You'll need to create a second template for confirmation
         const response = await emailjs.send(
-            'service_tmql66a',        // Same service ID
-            'template_azlv2gd',   // Create a new template for confirmation
+            'service_7y2zhfo',        // Same service ID
+            'template_ymb91bj',   // Create a new template for confirmation
             templateParams
         );
 
@@ -349,4 +349,5 @@ codeInput.addEventListener('input', () => {
     codeInput.classList.remove('error');
     hideError();
 });
+
 
