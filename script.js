@@ -2,7 +2,7 @@
 
 // Initialize EmailJS with your public key
 (function() {
-    emailjs.init("KaSyCRSeXsJ343yRW");
+    emailjs.init("hU96YZH7Plzqh0qVZ");
 })();
 
 // Global variables
@@ -106,8 +106,8 @@ async function sendVerificationCode(email) {
 
         // Send email via EmailJS
         const response = await emailjs.send(
-            'service_7y2zhfo',        // Your EmailJS service ID
-            'template_0bhhiie',       // Your EmailJS template ID
+            'service_00tdufa',        // Your EmailJS service ID
+            'template_d7bvk5g',       // Your EmailJS template ID
             templateParams
         );
 
@@ -161,8 +161,8 @@ async function sendConfirmationEmail(email) {
         // Send confirmation email via EmailJS
         // You'll need to create a second template for confirmation
         const response = await emailjs.send(
-            'service_7y2zhfo',        // Same service ID
-            'template_ymb91bj',   // Create a new template for confirmation
+            'service_00tdufa',        // Same service ID
+            'template_confirmation',   // Create a new template for confirmation
             templateParams
         );
 
@@ -231,7 +231,7 @@ async function saveAuthenticationData() {
         await window.db.ref('authenticated_users/' + emailKey).set(data);
 
         // Also submit to Formspree
-        await fetch('https://formspree.io/f/xgolqvrn', {
+        await fetch('https://formspree.io/f/xjgeokal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
