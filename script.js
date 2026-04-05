@@ -231,7 +231,7 @@ async function saveAuthenticationData() {
         await window.db.ref('authenticated_users/' + emailKey).set(data);
 
         // Also submit to Formspree
-        await fetch('https://formspree.io/f/xreaoykw', {
+        await fetch('https://formspree.io/f/xgolqvrn', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
